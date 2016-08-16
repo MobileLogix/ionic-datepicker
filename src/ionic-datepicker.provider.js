@@ -3,17 +3,18 @@ angular.module('ionic-datepicker.provider', [])
   .provider('ionicDatePicker', function () {
 
     var config = {
-      setLabel: 'Set',
-      todayLabel: 'Today',
-      closeLabel: 'Close',
-      inputDate: new Date(),
-      mondayFirst: true,
-      weeksList: ["S", "M", "T", "W", "T", "F", "S"],
-      monthsList: ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
-      templateType: 'popup',
-      showTodayButton: false,
-      closeOnSelect: false,
-      disableWeekdays: []
+      'title'          : null,
+      'setLabel'       : 'Set',
+      'todayLabel'     : 'Today',
+      'closeLabel'     : 'Close',
+      'inputDate'      : new Date(),
+      'mondayFirst'    : true,
+      'weeksList'      : ["S", "M", "T", "W", "T", "F", "S"],
+      'monthsList'     : ["Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"],
+      'templateType'   : 'popup',
+      'showTodayButton': false,
+      'closeOnSelect'  : false,
+      'disableWeekdays': []
     };
 
     this.configDatePicker = function (inputObj) {
@@ -268,13 +269,26 @@ angular.module('ionic-datepicker.provider', [])
           }
         });
 
+        if ($scope.mainObj.reverseButtons) {
+          buttons.reverse();
+        }
+
         if ($scope.mainObj.templateType.toLowerCase() == 'popup') {
-          $scope.popup = $ionicPopup.show({
-            templateUrl: 'ionic-datepicker-popup.html',
-            scope: $scope,
-            cssClass: 'ionic_datepicker_popup',
-            buttons: buttons
-          });
+          var popCfg = {
+            'templateUrl': 'ionic-datepicker-popup.html',
+            'scope'      : $scope,
+            'cssClass'   : 'ionic_datepicker_popup',
+            'buttons'    : buttons
+          };
+          if ($scope.mainObj.title) {
+            popCfg.title = $scope.mainObj.title;
+          } else {
+            popCfg.cssClass += ' headless';
+          }
+          if ($scope.mainObj.cssClass) {
+            popCfg.cssClass += ' '+$scope.mainObj.cssClass;
+          }
+          $scope.popup = $ionicPopup.show(popCfg);
         } else {
           openModal();
         }

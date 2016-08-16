@@ -44,6 +44,11 @@
 
 .ionic_datepicker_popup .popup-head {
   background-color: #009688;
+  border-bottom: none;
+  /*display: none;*/
+}
+
+.ionic_datepicker_popup.headless .popup-head {
   display: none;
 }
 
@@ -68,6 +73,13 @@
   color: #fff;
   line-height: 45px;
   font-size: 18px;
+}
+
+.ionic_datepicker_popup.headless .popup-body .selected_date_full {
+  height: 30px;
+}
+.ionic_datepicker_popup .popup-body .selected_date_full {
+  height: 45px;
 }
 
 .ionic_datepicker_popup .popup-body .select_section {
