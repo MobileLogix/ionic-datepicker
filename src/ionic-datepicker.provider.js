@@ -21,7 +21,7 @@ angular.module('ionic-datepicker.provider', [])
       angular.extend(config, inputObj);
     };
 
-    this.$get = ['$rootScope', '$timeout', '$ionicPopup', '$ionicModal', 'IonicDatepickerService', function ($rootScope, $timeout, $ionicPopup, $ionicModal, IonicDatepickerService) {
+    this.$get = ['$rootScope', '$ionicPopup', '$ionicModal', 'IonicDatepickerService', function ($rootScope, $ionicPopup, $ionicModal, IonicDatepickerService) {
 
       var provider = {};
 
@@ -68,15 +68,12 @@ angular.module('ionic-datepicker.provider', [])
         $scope.selctedDateEpoch = selectedDate.epoch;
 
         if ($scope.mainObj.closeOnSelect) {
-          // add delay to prevent accidental device tap proliferation
-          $timeout(function() {
-            $scope.mainObj.callback($scope.selctedDateEpoch);
-            if ($scope.mainObj.templateType.toLowerCase() == 'popup') {
-              $scope.popup.close();
-            } else {
-              closeModal();
-            }
-          }, 100);
+          $scope.mainObj.callback($scope.selctedDateEpoch);
+          if ($scope.mainObj.templateType.toLowerCase() == 'popup') {
+            $scope.popup.close();
+          } else {
+            closeModal();
+          }
         }
       };
 
@@ -86,21 +83,15 @@ angular.module('ionic-datepicker.provider', [])
         refreshDateList(new Date());
         $scope.selctedDateEpoch = resetHMSM(today).getTime();
         if ($scope.mainObj.closeOnSelect) {
-          // add delay to prevent accidental device tap proliferation
-          $timeout(function() {
-            $scope.mainObj.callback($scope.selctedDateEpoch);
-            closeModal();
-          }, 100);
+          $scope.mainObj.callback($scope.selctedDateEpoch);
+          closeModal();
         }
       };
 
       //Set date for the modal
       $scope.setIonicDatePickerDate = function () {
-          // add delay to prevent accidental device tap proliferation
-          $timeout(function() {
-            $scope.mainObj.callback($scope.selctedDateEpoch);
-            closeModal();
-          }, 100);
+        $scope.mainObj.callback($scope.selctedDateEpoch);
+        closeModal();
       };
 
       //Setting the disabled dates list.
@@ -250,13 +241,8 @@ angular.module('ionic-datepicker.provider', [])
             text: $scope.mainObj.setLabel,
             type: 'button_set',
             onTap: function (e) {
-              e.preventDefault();
-              // add delay to prevent accidental device tap proliferation
-              $timeout(function() {
-                console.log("delayed");
-                $scope.mainObj.callback($scope.selctedDateEpoch);
-                $scope.popup.close();
-              }, 100);
+              $scope.mainObj.callback($scope.selctedDateEpoch);
+              $scope.popup.close();
             }
           }];
         }
@@ -266,15 +252,11 @@ angular.module('ionic-datepicker.provider', [])
             text: $scope.mainObj.todayLabel,
             type: 'button_today',
             onTap: function (e) {
-              e.preventDefault();
               var today = new Date();
               refreshDateList(new Date());
               $scope.selctedDateEpoch = resetHMSM(today).getTime();
-              if ($scope.mainObj.closeOnSelect) {
-                // add delay to prevent accidental device tap proliferation
-                $timeout(function() {
-                  $scope.popup.close();
-                }, 100);
+              if (!$scope.mainObj.closeOnSelect) {
+                e.preventDefault();
               }
             }
           });
@@ -284,12 +266,8 @@ angular.module('ionic-datepicker.provider', [])
           text: $scope.mainObj.closeLabel,
           type: 'button_close',
           onTap: function (e) {
-            e.preventDefault();
-            // add delay to prevent accidental device tap proliferation
-            $timeout(function() {
-              console.log('ionic-datepicker popup closed.');
-              $scope.popup.close();
-            }, 100);
+            console.log('ionic-datepicker popup closed.');
+            $scope.popup.close();
           }
         });
 
