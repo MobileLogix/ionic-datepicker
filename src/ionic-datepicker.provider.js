@@ -290,6 +290,8 @@ angular.module('ionic-datepicker.provider', [])
             popCfg.cssClass += ' '+$scope.mainObj.cssClass;
           }
           $scope.popup = $ionicPopup.show(popCfg);
+
+          return $scope.popup;
         } else {
           openModal();
         }
